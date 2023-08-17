@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C I F R A R</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #000000;
+            background-image: url("https://www.shutterstock.com/shutterstock/photos/2022476285/display_1500/stock-vector-abstract-binary-software-programming-code-background-random-part-of-the-program-code-digital-2022476285.jpg")
+        }
+
+        .neon-border {
+            position: relative;
+            width: 80%;
+            max-width: 400px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease;
+        }
+
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff00c8, #7d00ff, #00e4ff, #00ff87);
+            background-size: 300% 300%;
+            border-radius: 20px;
+            z-index: -1;
+            animation: animateGradient 3s linear infinite;
+        }
+
+        @keyframes animateGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        textarea, input, button {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        button {
+            background-color: #007BFF;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="neon-border">
+        <h1>C I F R A D O</h1>
+        <textarea id="message" placeholder="Ingrese su mensaje"></textarea>
+        <input type="number" id="key" placeholder="Ingrese la clave">
+        <button onclick="cifrar()">Cifrar</button>
+        <button onclick="descifrar()">Descifrar</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function cifradoCesar(mensaje, clave) {
+            let resultado = "";
+            for (let i = 0; i < mensaje.length; i++) {
+                let caracter = mensaje[i];
+                if (caracter.match(/[a-z]/i)) {
+                    let base = caracter === caracter.toUpperCase() ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
+                    let cifrado = (caracter.charCodeAt(0) - base + clave) % 26;
+                    resultado += String.fromCharCode(base + cifrado);
+                } else {
+                    resultado += caracter;
+                }
+            }
+            return resultado;
+        }
+
+        function descifradoCesar(mensajeCifrado, clave) {
+            let resultado = "";
+            for (let i = 0; i < mensajeCifrado.length; i++) {
+                let caracter = mensajeCifrado[i];
+                if (caracter.match(/[a-z]/i)) {
+                    let base = caracter === caracter.toUpperCase() ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
+                    let descifrado = (caracter.charCodeAt(0) - base - clave + 26) % 26;
+                    resultado += String.fromCharCode(base + descifrado);
+                } else {
+                    resultado += caracter;
+                }
+            }
+            return resultado;
+        }
+
+        function cifrar() {
+            let mensaje = document.getElementById('message').value;
+            let clave = parseInt(document.getElementById('key').value);
+            let mensajeCifrado = cifradoCesar(mensaje, clave);
+            document.getElementById('result').innerText = "Mensaje cifrado: " + mensajeCifrado;
+        }
+
+        function descifrar() {
+            let mensajeCifrado = document.getElementById('message').value;
+            let clave = parseInt(document.getElementById('key').value);
+            let mensajeDescifrado = descifradoCesar(mensajeCifrado, clave);
+            document.getElementById('result').innerText = "Mensaje descifrado: " + mensajeDescifrado;
+        }
+    </script>
+</body>
+</html>
